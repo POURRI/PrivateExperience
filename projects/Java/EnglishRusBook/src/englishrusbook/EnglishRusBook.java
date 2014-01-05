@@ -6,6 +6,7 @@
 
 package englishrusbook;
 
+import com.itextpdf.text.Document;
 /**
  *
  * @author POURRI
