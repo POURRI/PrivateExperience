@@ -14,6 +14,7 @@ import java.io.IOException;
 import com.itextpdf.text.DocumentException;
 
 import java.io.FileNotFoundException;
+import java.util.Vector;
 
 public class EnglishRusBook {
 
@@ -25,11 +26,11 @@ public class EnglishRusBook {
     private static PdfReader reader;
     
     public static void main(String[] args) {
-        if (isCanParsingPDF()) {
-            showPDFInfo(reader);
-            String lineList[] = getPDFPages(reader);
-            createPDF(lineList);
-        }
+        if (!isCanParsingPDF()) return;
+        
+        showPDFInfo(reader);
+        String lineList[] = getPDFPages(reader);
+        createPDF(lineList);
     }
     
     private static void createPDF(String[] lineList) {
@@ -40,6 +41,17 @@ public class EnglishRusBook {
         } catch (FileNotFoundException | DocumentException e) {
             System.out.println("ERROR: " + e); 
         }
+    }
+    
+    private static Vector <String> createVector(String[] lineList) {
+        Vector <String> full = new Vector<String>();
+        for (int i = 1; i < lineList.length; i++) {
+            String[] words = lineList[i].split(" ");
+            for (int j = 0; j < words.length; j++){
+                full.add(words[j]);
+            }
+        }
+        return full;
     }
     
     private static void writeToPDF(Document document, String[] lineList) {
