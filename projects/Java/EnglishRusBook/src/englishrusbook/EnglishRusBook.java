@@ -14,7 +14,7 @@ import java.io.IOException;
 import com.itextpdf.text.DocumentException;
 
 import java.io.FileNotFoundException;
-import java.util.Vector;
+import java.util.HashSet;
 
 public class EnglishRusBook {
 
@@ -30,6 +30,7 @@ public class EnglishRusBook {
         
         showPDFInfo(reader);
         String lineList[] = getPDFPages(reader);
+        getUnique(lineList);
         createPDF(lineList);
     }
     
@@ -43,12 +44,15 @@ public class EnglishRusBook {
         }
     }
     
-    private static Vector <String> createVector(String[] lineList) {
-        Vector <String> full = new Vector<String>();
+    private static HashSet <String> getUnique(String[] lineList) {
+        HashSet <String> full = new HashSet <String>();
+
         for (int i = 1; i < lineList.length; i++) {
+            
             String[] words = lineList[i].split(" ");
-            for (int j = 0; j < words.length; j++){
-                full.add(words[j]);
+            
+            for (String word: words){
+                full.add(word);
             }
         }
         return full;
