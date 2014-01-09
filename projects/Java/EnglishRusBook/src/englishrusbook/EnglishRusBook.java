@@ -45,7 +45,7 @@ public class EnglishRusBook {
     }
     
     private static String[] getUnique(String[] lineList) {
-        HashSet<String> full = new HashSet<String>();
+        HashSet<String> full = new HashSet<>();
         
         int debugAllCount = 0;
         
@@ -89,6 +89,7 @@ public class EnglishRusBook {
         try {
             reader = new PdfReader(PDFToRead);
         } catch (IOException e) {
+            printOut("ERROR : Maybe file not exist");
             isCanParsingPDF = false;
         }
         
