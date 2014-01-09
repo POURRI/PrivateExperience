@@ -14,24 +14,22 @@ import java.io.IOException;
 import com.itextpdf.text.DocumentException;
 
 import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
 
-public class EnglishRusBook {
+public class EnglishRusBook  extends Central{
 
     private final static String PDFToRead = "test/data/TheTestRead.pdf";
     private final static String PDFToWrite = "test/data/TheTestWrite.pdf";
-    
-    private final static boolean isDebug = true;
-    
-    private static PdfReader reader;
-    
+
     public static void main(String[] args) {
-        if (!isCanParsingPDF()) return;
+        isDebug = true;
         
+        Reader parser = new Reader();
+        if (!parser.isCanParsingPDF(PDFToRead)) return;
+        
+        PdfReader reader = parser.getReader();
         showPDFInfo(reader);
-        String lineList[] = getPDFPages(reader);
-        createPDF(getUnique(lineList));
+        createPDF(getUnique(getPDFPages(reader), true));
     }
     
     private static void createPDF(String[] lineList) {
@@ -44,36 +42,22 @@ public class EnglishRusBook {
         }
     }
     
-    private static String[] getUnique(String[] lineList) {
-        HashSet<String> full = new HashSet<>();
+    private static String[] getUnique(ArrayList<String> lineList, boolean isPattern) {
+        Parser parser = (isPattern) ? new ParserPattern() : new ParserTokenizer();
         
-        int debugAllCount = 0;
+        parser.parsing(lineList);
         
-        String discargChars = " 1234567890~(){}[]%<>+=$#*!?.,:;-\'\"/_`";
+        debugOut("AllCount = " + String.valueOf(parser.getDebugAllCount()));
+        debugOut("UniqueCount = " + String.valueOf(parser.getUnique().size()));
         
-        int minWordLength = 1;
-        for (String line: lineList) {
-            StringTokenizer token = new StringTokenizer(line, discargChars);
-            while (token.hasMoreElements()) {
-                debugAllCount++;
-                String word = token.nextToken();
-                if (word.length() > minWordLength) {
-                    full.add(word.toLowerCase());
-                }
-            }
-        }
-        
-        debugOut("AllCount = " + String.valueOf(debugAllCount));
-        debugOut("UniqueCount = " + String.valueOf(full.size()));
-        
-        return full.toArray(new String[full.size()]);
+        return parser.getUnique().toArray(new String[parser.getUnique().size()]);
     }
     
     private static void writeToPDF(Document document, String[] lineList) {
         document.open();
         try {
-            for (int i = 1, lineListCount = lineList.length; i < lineListCount; i++) {
-                document.add(new Paragraph(lineList[i]));
+            for (String line: lineList) {
+                document.add(new Paragraph(line));
             }
         } catch (DocumentException e) {
             System.out.println("ERROR in writing: " + e);
@@ -82,51 +66,24 @@ public class EnglishRusBook {
         }
     }
     
-    private static boolean isCanParsingPDF() {
-        debugOut("function:isCanParsingPDF");
-        boolean isCanParsingPDF = true;
-        
-        try {
-            reader = new PdfReader(PDFToRead);
-        } catch (IOException e) {
-            printOut("ERROR : Maybe file not exist");
-            isCanParsingPDF = false;
-        }
-        
-        return isCanParsingPDF;
-    }
-    
     private static void showPDFInfo(PdfReader reader) {
         printOut("INFO: FileLength: " + String.valueOf(reader.getFileLength()));
         printOut("INFO: NumberOfPages: " + String.valueOf(reader.getNumberOfPages()));
     }
     
-    private static String[] getPDFPages(PdfReader reader) {
-        debugOut("function:getPDFPages");
+    private static ArrayList<String> getPDFPages(PdfReader reader) {
+        debugOut("function:getPDFPages");  
+        ArrayList<String> lineList = new ArrayList<>();
         
-        int pageCount = reader.getNumberOfPages();
-        
-        // we have different start in Array and Page
-        String lineList[] = new String[pageCount];
-        
-        for (int i = 1; i <= pageCount; i++) {
+        for (int i = 1, pageCount = reader.getNumberOfPages(); i <= pageCount; i++) {
             debugOut("ShowPageOfNumber: " + String.valueOf(i));
             try {
-                lineList[i - 1] = PdfTextExtractor.getTextFromPage(reader, i);
+                lineList.add(PdfTextExtractor.getTextFromPage(reader, i));
             } catch (IOException e) {
                 System.out.println("ERROR in reading: " + e);
             }
         }
         
         return lineList;
-    }
-    
-    private static void debugOut(String debug) {
-        if (!isDebug) return; 
-        printOut("DEBUG: " + debug);
-    }
-    
-    private static void printOut(String print) {
-        System.out.println(print);
     }
 }
