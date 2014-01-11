@@ -6,28 +6,12 @@
 
 package englishrusbook;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  *
  * @author POURRI
  */
 public class ParserPattern  extends Parser{
-    public void parsing(ArrayList<String> lineList) {
-        Pattern pattern = Pattern.compile("[a-z]+");
-        
-        for (String line: lineList) {
-            Matcher matcher = pattern.matcher(line.toLowerCase());
-            while (matcher.find()) {
-                String word = matcher.group();
-                if (word.length() > minWordLength) {
-                    debugAllCount++;
-                    unique.add(word);
-                }
-            }
-        }
-    
-    } 
+    protected WorkerHorse getWorkerHorse(String line) {
+        return new WorkerHorsePattern(line);
+    }
 }

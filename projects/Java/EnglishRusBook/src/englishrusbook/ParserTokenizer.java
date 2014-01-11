@@ -6,26 +6,12 @@
 
 package englishrusbook;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 /**
  *
  * @author POURRI
  */
 public class ParserTokenizer extends Parser{
-    public void parsing(ArrayList<String> lineList) {
-        String discargChars = " 1234567890~(){}[]%<>+=$#*!?.,:;-\'\"/_`";
-        
-        for (String line: lineList) {
-            StringTokenizer token = new StringTokenizer(line, discargChars);
-            while (token.hasMoreElements()) {
-                String word = token.nextToken();
-                if (word.length() > minWordLength) {
-                    debugAllCount++;
-                    unique.add(word.toLowerCase());
-                }
-            }
-        }
-    }    
+    protected WorkerHorse getWorkerHorse(String line) {
+        return new WorkerHorseTokenizer(line);
+    }   
 }
