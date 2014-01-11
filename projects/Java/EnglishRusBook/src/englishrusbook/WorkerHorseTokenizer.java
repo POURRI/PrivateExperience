@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * @author POURRI
  */
 public class WorkerHorseTokenizer extends WorkerHorse{
-    protected static String settings = " 1234567890~(){}[]%<>+=$#*!?.,:;-\'\"/_`";
+    protected final static String settings = " 1234567890~(){}[]%<>+=$#*!?.,:;-\'\"/_`";
     
     private final StringTokenizer token;
     
@@ -22,10 +22,12 @@ public class WorkerHorseTokenizer extends WorkerHorse{
         token = new StringTokenizer(source, settings);
     }
     
+    @Override
     public boolean hasNext() {
         return token.hasMoreElements();
     }
     
+    @Override
     public String getNext() {
         return token.nextToken();
     }

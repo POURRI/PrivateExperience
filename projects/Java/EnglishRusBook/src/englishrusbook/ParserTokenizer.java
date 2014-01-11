@@ -11,6 +11,7 @@ package englishrusbook;
  * @author POURRI
  */
 public class ParserTokenizer extends Parser{
+    @Override
     protected WorkerHorse getWorkerHorse(String line) {
         return new WorkerHorseTokenizer(line);
     }   

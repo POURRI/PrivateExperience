@@ -73,7 +73,7 @@ public class TranslatorAutoThreadList {
 class RunnableWorld extends Central implements Runnable{
     private static int debugProgress = 0;
     
-    private static String delimiter = " : ";
+    private final static String delimiter = " : ";
     
     private static String languageInput = Language.ENGLISH;
     private static String languageOutput = Language.UKRAINIAN;
@@ -86,7 +86,7 @@ class RunnableWorld extends Central implements Runnable{
     
     private static HashMap<String, String> storage;
     
-    private String word;
+    private final String word;
     
     RunnableWorld(String word) {
         this.word = word;
@@ -96,6 +96,7 @@ class RunnableWorld extends Central implements Runnable{
         storage = map;
     }
     
+    @Override
     public void run() {
         Translator translator = Translator.getInstance();
         String translate = translator.translate(word, languageInput, languageOutput);

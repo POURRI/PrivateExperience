@@ -11,6 +11,7 @@ package englishrusbook;
  * @author POURRI
  */
 public class ParserPattern  extends Parser{
+    @Override
     protected WorkerHorse getWorkerHorse(String line) {
         return new WorkerHorsePattern(line);
     }

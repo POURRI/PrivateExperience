@@ -14,9 +14,14 @@ import java.util.regex.Pattern;
  * @author POURRI
  */
 public class WorkerHorsePattern extends WorkerHorse{
-    protected static String settings = "[a-z]+";
+    protected final static String settings;
     
-    private final static Pattern pattern = Pattern.compile("[a-z]+");
+    private final static Pattern pattern;
+    
+    static {
+        settings = "[a-z]+";
+        pattern = Pattern.compile(settings);
+    }
     
     private final Matcher matcher; 
     
@@ -25,10 +30,12 @@ public class WorkerHorsePattern extends WorkerHorse{
         matcher = pattern.matcher(source);
     }
     
+    @Override
     public boolean hasNext() {
         return matcher.find();
     }
     
+    @Override
     public String getNext() {
         return matcher.group();
     }
