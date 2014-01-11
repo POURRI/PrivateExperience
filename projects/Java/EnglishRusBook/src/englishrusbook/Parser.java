@@ -9,7 +9,7 @@ package englishrusbook;
 import static englishrusbook.Central.debugOut;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -56,7 +56,7 @@ abstract public class Parser {
     abstract protected WorkerHorse getWorkerHorse(String line);
     
     public void parsing() {
-        for(Map.Entry<Integer, String> entry : source.entrySet()) {
+        for(Entry<Integer, String> entry : source.entrySet()) {
             WorkerHorse workerHorse = getWorkerHorse(entry.getValue().toLowerCase());
             
             HashSet<String> pageWordSet = new HashSet<>();
