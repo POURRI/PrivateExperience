@@ -7,7 +7,6 @@
 package englishrusbook;
 
 import com.gtranslate.Language;
-import com.gtranslate.Translator;
 import java.util.HashMap;
 import java.util.HashSet;
 /**
@@ -28,17 +27,11 @@ public class TranslatorDefault extends Central{
     }
     
     public HashMap<String, String> tranlsate(HashSet<String> wordSet) {
-        Translator translator = Translator.getInstance();
         HashMap<String, String> map = new HashMap<>();
         
-        int debugProgress = 0;
-        String delimiter = " : ";
-        for (String word : wordSet) {
-            String translate = translator.translate(word, languageInput, languageOutput);
-            map.put(word, translate);
-            
-            debugOut(String.valueOf(++debugProgress) + delimiter + word + delimiter + translate);
-        }
+        TranslatorAutoThreadList autoThreadList = new TranslatorAutoThreadList(map, wordSet);
+        
+        autoThreadList.start();
         
         return map;
     }

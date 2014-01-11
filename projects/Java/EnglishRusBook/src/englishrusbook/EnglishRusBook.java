@@ -34,12 +34,16 @@ public class EnglishRusBook  extends Central{
         parser.setSource(pageMap);
         
         parser.parsing();
-        
         HashSet<String> uniqueWordSet = parser.getUnique();
-        HashMap<String, String> wordTranslateMap = (new TranslatorDefault()).tranlsate(uniqueWordSet);
+        
+        TranslatorDefault translator = new TranslatorDefault();
+        HashMap<String, String> wordTranslateMap = translator.tranlsate(uniqueWordSet);
 
-        (new Writer()).create(PDFToWrite, wordTranslateMap);
-        (new WriterDictionary()).create(FileToWriteDifferential, parser.getUniquePageMapDifferential(), wordTranslateMap);
+        Writer writerPPF = new Writer();
+        writerPPF.create(PDFToWrite, wordTranslateMap);
+        
+        WriterDictionary writerFile = new WriterDictionary();
+        writerFile.create(FileToWriteDifferential, parser.getUniquePageMapDifferential(), wordTranslateMap);
     }
     
 }
