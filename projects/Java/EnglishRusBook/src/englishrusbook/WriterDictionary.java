@@ -17,7 +17,7 @@ import java.util.Map.Entry;
  *
  * @author POURRI
  */
-public class WriterDifferential {
+public class WriterDictionary {
     private HashMap<Integer, HashSet<String>> source;
     
     private HashMap<String, String> translateMap;
@@ -41,6 +41,8 @@ public class WriterDifferential {
             for(Entry<Integer, HashSet<String>> entry : source.entrySet()) {
                 HashSet<String> wordSet = entry.getValue();
                 differentialStatistic.put(entry.getKey(), wordSet.size());
+                document.write("NumberOfPage : " + String.valueOf(entry.getKey()));
+                document.newLine();
                 for(String word: wordSet) {
                     document.write("word: " + word + " translate: " + translateMap.get(word));
                     document.newLine();

@@ -19,6 +19,7 @@ public class EnglishRusBook  extends Central{
 
     private final static String PDFToRead = "test/data/TheTestRead.pdf";
     private final static String PDFToWrite = "test/data/TheTestWrite.pdf";
+    private final static String FileToWriteDifferential = "test/data/differential.txt";
 
     public static void main(String[] args) {
         isDebug = true;
@@ -38,7 +39,7 @@ public class EnglishRusBook  extends Central{
         HashMap<String, String> wordTranslateMap = (new TranslatorDefault()).tranlsate(uniqueWordSet);
 
         (new Writer()).create(PDFToWrite, wordTranslateMap);
-        (new WriterDifferential()).create("testFile.txt", parser.getUniquePageMapDifferential(), wordTranslateMap);
+        (new WriterDictionary()).create(FileToWriteDifferential, parser.getUniquePageMapDifferential(), wordTranslateMap);
     }
     
 }
