@@ -6,8 +6,6 @@
 
 package englishrusbook;
 
-import com.gtranslate.Language;
-import com.gtranslate.Translator;
 import static englishrusbook.Central.debugOut;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,15 +73,6 @@ class RunnableWorld extends Central implements Runnable{
     
     private final static String delimiter = " : ";
     
-    private static String languageInput = Language.ENGLISH;
-    private static String languageOutput = Language.UKRAINIAN;
-    public static void setLanguageInput(String language) {
-        languageInput = language;
-    }
-    public static void setLanguageOutput(String language) {
-        languageOutput = language;
-    }
-    
     private static HashMap<String, String> storage;
     
     private final String word;
@@ -98,8 +87,7 @@ class RunnableWorld extends Central implements Runnable{
     
     @Override
     public void run() {
-        Translator translator = Translator.getInstance();
-        String translate = translator.translate(word, languageInput, languageOutput);
+        String translate = TranslatorDefault.getInstanse().tranlsate(word);
         storage.put(word, translate);
         debugOut(String.valueOf(++debugProgress) + delimiter + word + delimiter + translate);
     }

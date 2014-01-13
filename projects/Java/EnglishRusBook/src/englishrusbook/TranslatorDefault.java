@@ -7,6 +7,7 @@
 package englishrusbook;
 
 import com.gtranslate.Language;
+import com.gtranslate.Translator;
 import java.util.HashMap;
 import java.util.HashSet;
 /**
@@ -26,6 +27,12 @@ public class TranslatorDefault extends Central{
         languageOutput = language;
     }
     
+    private static TranslatorDefault instanse = new TranslatorDefault();
+    
+    public static TranslatorDefault getInstanse() {
+        return instanse;
+    }
+    
     public HashMap<String, String> tranlsate(HashSet<String> wordSet) {
         HashMap<String, String> map = new HashMap<>();
         
@@ -34,5 +41,12 @@ public class TranslatorDefault extends Central{
         autoThreadList.start();
         
         return map;
+    }
+    
+    private boolean isMock = true;
+    public String tranlsate(String word) {
+        if (isMock) return word;
+        Translator translator = Translator.getInstance();
+        return translator.translate(word, languageInput, languageOutput);
     }
 }

@@ -39,7 +39,7 @@ public class EnglishRusBook  extends Central{
         parser.parsing();
         HashSet<String> uniqueWordSet = parser.getUnique();
         
-        TranslatorDefault translator = new TranslatorDefault();
+        TranslatorDefault translator = TranslatorDefault.getInstanse();
         HashMap<String, String> wordTranslateMap = translator.tranlsate(uniqueWordSet);
 
         Writer writerPPF = new Writer();
