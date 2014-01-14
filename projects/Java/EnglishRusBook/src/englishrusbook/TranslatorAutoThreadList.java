@@ -57,7 +57,7 @@ public class TranslatorAutoThreadList {
         int beginPosition = 0;
         while (!processList.isEmpty()) {
             Thread process = processList.get(beginPosition);
-            while (process.isAlive());
+            while (process.isAlive()){}
             processList.remove(process);
         }
         processCount = 0;
